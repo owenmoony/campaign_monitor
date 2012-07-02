@@ -1,0 +1,29 @@
+.container
+  - @email_campaigns.each do |campaign|
+    %h1= "#{campaign.domain.name}: #{campaign.emails_count} emails (running for #{distance_of_time_in_words(campaign.issued_at, campaign.samples.last.created_at)})"
+    %h2= "#{campaign.remote_id} - #{campaign.subject}"
+    %table
+      %thead
+        %tr
+          %th Draft
+          %th Finished
+          %th Dispatched
+          %th Delivered
+          %th Dropped
+          %th Deferred
+          %th Failed
+          %th Bounced
+          %th Time
+
+      - campaign.samples.each do |sample|
+        %tbody
+          %tr
+            %td= sample.draft
+            %td= sample.finished
+            %td= sample.dispatched
+            %td= sample.delivered
+            %td= sample.dropped
+            %td= sample.deferred
+            %td= sample.failed
+            %td= sample.bounce
+            %td= sample.created_at.strftime("%I:%M%p")

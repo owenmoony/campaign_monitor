@@ -1,0 +1,1 @@
+Monitors email_campaigns in production
