@@ -1,6 +1,6 @@
 .container
   - @email_campaigns.each do |campaign|
-    - sample = campaign.recent_sample
+    - sample = campaign.latest_sample
     .well
       %h1= "#{campaign.domain.name}: #{campaign.subject}"
       %h2= "Running for #{distance_of_time_in_words(campaign.issued_at, campaign.samples.last.created_at)}"

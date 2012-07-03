@@ -9,9 +9,6 @@ class EmailCampaignSampler
     return self.new.run
   end
 
-  def initialize
-  end
-
   def run
     dir = Dir.glob('/opt/deploy/config/cluster_*')
     dir.each do |file|
@@ -40,7 +37,7 @@ class EmailCampaignSampler
         campaign.remote_id = sample["id"]
         campaign.save!
         Sample.where(email_campaign_id: campaign.id).update_all(:latest => false)
-        Sample.create(
+        sample = Sample.create(
             email_campaign_id: campaign.id,
             draft: sample["draft"],
             finished: sample["finished"],
@@ -52,6 +49,7 @@ class EmailCampaignSampler
             dropped: sample["dropped"],
             latest: true,
         )
+        campaign.send_alerts
         Rails.logger.info "created sample for #{sample}"
       end
     rescue Exception => e
